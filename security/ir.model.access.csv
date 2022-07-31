@@ -1,0 +1,11 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+access_ghozi-academy_course,ghozi-academy.course_manager,model_ghozi_academy_course,ghozi-academy.group_manager,1,1,1,1
+access_ghozi-academy_session,ghozi-academy.session_manager,model_ghozi_academy_session,ghozi-academy.group_manager,1,1,1,1
+
+access_ghozi-academy_session_read,ghozi-academy.session_read,model_ghozi_academy_session,ghozi-academy.group_read,1,0,0,0
+
+access_ghozi-academy_session_course_all,ghozi-academy.course_all,model_ghozi_academy_course,,1,0,0,0
+access_ghozi-academy_session_all,ghozi-academy.session_all,model_ghozi_academy_session,,1,0,0,0
+
+access_ghozi-academy_teacher_category,ghozi-academy.academy_teacher_category,model_ghozi_academy_teacher_category,,1,1,1,1

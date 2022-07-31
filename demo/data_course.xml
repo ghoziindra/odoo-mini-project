@@ -1,0 +1,14 @@
+<odoo>
+    <data>
+        <record id="course0" model="ghozi_academy.course">
+        <field name="name">Training Technical Odoo</field>
+        <field name="description">Training Technical Odoo Batch 1</field>
+        </record>
+
+        <record id="course1" model="ghozi_academy.course">
+        <field name="name">Python Training Beginner</field>
+        <field name="description">Python Training for Beginner</field>
+        </record>
+
+    </data>
+</odoo>

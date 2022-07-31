@@ -1,0 +1,104 @@
+<odoo>
+  <data>
+    
+    <!-- explicit Tree view definition -->
+    <record model="ir.ui.view" id="ghozi-academy.course_list">
+      <field name="name">ghozi-academy.course_list</field>
+      <field name="model">ghozi_academy.course</field>
+      <field name="arch" type="xml">
+        <tree string='Course List'>
+          <field name="name"/>
+          <field name="user_id"/>
+        </tree>
+      </field>
+    </record>
+    
+    <!-- explicit Form view definition -->
+    <record model="ir.ui.view" id="ghozi-academy.course_form">
+      <field name="name">ghozi-academy.course_form</field>
+      <field name="model">ghozi_academy.course</field>
+      <field name="arch" type="xml">
+        <form string='Course Form'>
+          <sheet>
+              <group>   
+                  <field name="name"/>
+                  <field name="user_id"/>
+              </group>
+              <notebook>
+                  <page name="description" string="Description">
+                    <field name="description"/>
+                  </page>
+                  <page name="session_ids" string="Session">
+                    <field name="session_ids"/>
+                  </page>
+              </notebook>
+          </sheet>    
+        </form>
+      </field>
+    </record>
+
+    <!-- search view -->
+    <record id="ghozi-academy.course_view_search" model="ir.ui.view">
+      <field name="name">ghozi-academy.course_view_search</field>
+      <field name="model">ghozi_academy.course</field>
+      <field name="arch" type="xml">
+        <search string="Search Description">
+          <!-- Add your fields here -->
+            <field name="name"/>
+            <field name="description"/>
+            <filter name="my_course" string="My Course" 
+                    domain="[('user_id', '=', uid)]"/>
+            <group string="Group By">
+                <filter name="group_by_responsible" string="Responsible"
+                        context="{'group_by': 'user_id'}" />              
+            </group>
+        </search>
+      </field>
+    </record>
+
+    <!-- actions opening views on models -->
+    <record model="ir.actions.act_window" id="ghozi-academy.course_action_window">
+      <field name="name">Course</field>
+      <field name="res_model">ghozi_academy.course</field>
+      <field name="view_mode">tree,form</field>
+      <field name="context" eval="{'search_default_my_course': 1}" />
+      <field name="domain">['|',('user_id','=', uid),('user_id','=',False)]</field>
+    </record>/
+
+
+    <!-- server action to the one above -->
+<!--
+    <record model="ir.actions.server" id="ghozi-academy.action_server">
+      <field name="name">ghozi-academy server</field>
+      <field name="model_id" ref="model_ghozi-academy_ghozi-academy"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": model._name,
+        }
+      </field>
+    </record>
+-->
+
+    <!-- Top menu item -->
+
+    <menuitem name="Ghozi Academy" id="ghozi-academy.menu_root"/>
+
+    <!-- menu categories -->
+
+    <menuitem name="Course" id="ghozi-academy.menu_course" parent="ghozi-academy.menu_root"/>
+<!--
+    <menuitem name="Menu 2" id="ghozi-academy.menu_2" parent="ghozi-academy.menu_root"/>
+-->
+    <!-- actions -->
+
+    <menuitem name="Data Course" id="ghozi-academy.menu_course_list" parent="ghozi-academy.menu_course"
+              action="ghozi-academy.course_action_window" sequence="1"/>
+<!--
+    <menuitem name="Server to list" id="ghozi-academy" parent="ghozi-academy.menu_2"
+              action="ghozi-academy.action_server"/>
+-->
+  </data>
+</odoo>

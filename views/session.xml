@@ -1,0 +1,187 @@
+<odoo>
+    <data>
+      
+      <!-- explicit Tree view definition -->
+      <record model="ir.ui.view" id="ghozi-academy.session_list">
+        <field name="name">ghozi-academy.session_list</field>
+        <field name="model">ghozi_academy.session</field>
+        <field name="arch" type="xml">
+          <tree string='Session List' decoration-info="duration&lt;5" decoration-danger="duration&gt;15">
+            <field name="name"/>
+            <field name="duration"/>
+            <field name="start_date"/>
+            <field name="number_of_seats"/>
+            <field name="course_id"/>
+            <field name="user_id"/>
+            <field name="taken_seats" widget='progressbar'/>
+          </tree>
+        </field>
+      </record>
+      
+      <!-- explicit Form view definition -->
+      <record model="ir.ui.view" id="ghozi-academy.session_form">
+        <field name="name">ghozi-academy.session_form</field>
+        <field name="model">ghozi_academy.session</field>
+        <field name="arch" type="xml">
+          <form string='Session Form'>
+              <sheet>
+                  <group>
+                      <group>
+                          <field name="name"/>
+                          <field name="number_of_seats"/>
+                          <field name="user_id"/>
+                          <field name= "active"/>
+                      </group>
+                      <group>
+                          <field name="start_date"/>
+                          <field name="duration"/>
+                          <field name="course_id"/>
+                          <field name="taken_seats" widget='progressbar'/>
+                      </group>
+                  </group>
+                  <notebook>
+                    <page name="attendee_ids" string="Attendees">
+                      <field name="attendee_ids"/>
+                    </page>
+                  </notebook> 
+              </sheet>
+          </form>
+        </field>
+      </record>        
+  
+      <!-- search view -->
+      <record id="ghozi-academy.session_view_search" model="ir.ui.view">
+        <field name="name">ghozi-academy.session_view_search</field>
+        <field name="model">ghozi_academy.session</field>
+        <field name="arch" type="xml">
+            <search string="Search Description">
+                <!-- Add your fields here -->
+                <field name="name"/>
+            </search>
+        </field>
+      </record>
+
+      <!-- calendar view -->
+      <record model="ir.ui.view" id="session_calendar_view">
+        <field name="name">session.calendar</field>
+        <field name="model">ghozi_academy.session</field>
+        <field name="arch" type="xml">
+            <calendar string="Session Calendar" date_start="start_date" date_stop="end_date" color="user_id">
+                <field name="name"/>
+              </calendar>
+        </field>
+      </record>
+
+      <!-- gant chart -->
+      <!-- <record id="model_name_view_gantt" model="ir.ui.view">
+          <field name="name">model_name.view.gantt</field>
+          <field name="model"></field>
+          <field name="arch" type="xml">
+              <gantt string="Session Gantt"
+                      date_start="start_date" date_stop="end_date"
+                      default_group_by='user_id'>
+              </gantt>
+          </field>
+      </record> -->
+
+      <!-- kanban -->
+      <record model="ir.ui.view" id="session_kanban_view">
+        <field name="name">session.kanban</field>
+        <field name="model">ghozi_academy.session</field>
+        <field name="arch" type="xml">
+          <kanban default_group_by="course_id">
+            <field name="name"/>
+            <field name="color"/>
+            <templates>
+                <t t-name="kanban-box">
+                    <div t-attf-class="{{!selection_mode ? 'oe_kanban_color_' + kanban_getcolor(record.color.raw_value) : ''}} oe_kanban_card oe_kanban_global_click oe_semantic_html_override">
+                        <div class="o_dropdown_kanban dropdown">
+
+                          <a role="button" class="dropdown-toggle o-no-caret btn" data-toggle="dropdown" data-display="static" href="#" aria-label="Dropdown menu" title="Dropdown menu">
+                              <span class="fa fa-ellipsis-v"/>
+                          </a>
+                          <div class="dropdown-menu" role="menu">
+                              <t t-if="widget.editable"><a role="menuitem" type="edit" class="dropdown-item">Edit...</a></t>
+                              <t t-if="widget.deletable"><a role="menuitem" type="delete" class="dropdown-item">Delete</a></t>
+                              <ul class="oe_kanban_colorpicker" data-field="color"/>
+                          </div>
+
+                        </div>
+                        <div t-attf-class="oe_kanban_content">
+                            <!-- title -->
+                            Session Name:
+                            <field name="name"/>
+                            <br/>
+                            Start Date:
+                            <field name="start_date"/>
+                            <br/>
+                            Duration:
+                            <field name="duration"/>
+                        </div>
+                    </div>
+                    <div class="oe_clear"></div>   
+                </t>
+            </templates>
+          </kanban>
+        </field>
+      </record>
+
+      <!-- graph chart -->
+      <record model="ir.ui.view" id="session_graph_view">
+          <field name="name">session.graph</field>
+          <field name="model">ghozi_academy.session</field>
+          <field name="arch" type="xml">
+              <graph string="Participations by Courses">
+                <field name="course_id"/>
+                <field name="attendees_count" type="measure"/>
+              </graph>
+          </field>
+      </record>
+      
+      <!-- actions opening views on models -->
+      <record model="ir.actions.act_window" id="ghozi-academy.session_action_window">
+        <field name="name">Session</field>
+        <field name="res_model">ghozi_academy.session</field>
+        <field name="view_mode">tree,form,calendar,graph,kanban</field>
+        <!-- <field name="context" eval="{'search_default_my_course': 1}" /> -->
+      </record>
+  
+  
+      <!-- server action to the one above -->
+  <!--
+      <record model="ir.actions.server" id="ghozi-academy.action_server">
+        <field name="name">ghozi-academy server</field>
+        <field name="model_id" ref="model_ghozi-academy_ghozi-academy"/>
+        <field name="state">code</field>
+        <field name="code">
+          action = {
+            "type": "ir.actions.act_window",
+            "view_mode": "tree,form",
+            "res_model": model._name,
+          }
+        </field>
+      </record>
+  -->
+  
+      <!-- Top menu item -->
+  
+      <!-- <menuitem name="Ghozi Academy" id="ghozi-academy.menu_root"/> -->
+  
+      <!-- menu categories -->
+  
+      <!-- <menuitem name="Course" id="ghozi-academy.menu_course" parent="ghozi-academy.menu_root"/> -->
+  <!--
+      <menuitem name="Menu 2" id="ghozi-academy.menu_2" parent="ghozi-academy.menu_root"/>
+  -->
+      <!-- actions -->
+  
+      <menuitem name="Data Session" id="ghozi-academy.menu_session_list" parent="ghozi-academy.menu_course"
+                action="ghozi-academy.session_action_window" sequence="2"/>
+  <!--
+      <menuitem name="Server to list" id="ghozi-academy" parent="ghozi-academy.menu_2"
+                action="ghozi-academy.action_server"/>
+  -->
+    </data>
+  </odoo>
+
+  

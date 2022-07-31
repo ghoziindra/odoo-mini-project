@@ -1,0 +1,21 @@
+<!-- <<?xml version='1.0' encoding='utf-8'?> -->
+<odoo>
+
+    <record id="view_users_form_inherit" model="ir.ui.view">
+        <field name="name">view_users_form_inherit</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@class='oe_title']/group[1]" position="inside">
+                <field name="is_instructor"/>
+                <field name="teacher_category_id"/>
+            </xpath>
+            <xpath expr="//notebook/page[2]" position="after">
+                <page name="session_ids" string="Sessions">
+                    <field name="session_ids"/>
+                </page>
+            </xpath>
+        </field>
+    </record>
+    
+</odoo>
